@@ -1,0 +1,35 @@
+{% extends 'Applic/index.html' %}
+
+{% block titulo %}
+    <h1>Hiciste click en el Formulario</h1>
+{% endblock titulo %}
+
+{% block contenido %}
+    <h2>Agregar Client</h2>
+    <form method='POST' action=''>
+        {% csrf_token %}
+        <table>
+            {{ form.as_p }}
+        </table>
+        <input type='submit' value='Enviar y regresar a inicio'>
+    </form>
+    
+    <h2>Agregar Market</h2>
+    <form method='POST' action=''>
+        {% csrf_token %}
+        <table>
+            {{ form2.as_p }}
+        </table>
+        <input type='submit' value='Enviar y regresar a inicio'>
+    </form>
+    
+    <h2>Agregar Worker</h2>
+    <form method='POST' action=''>
+        {% csrf_token %}
+        <table>
+            {{ form3.as_p }}
+        </table>
+        <input type='submit' value='Enviar y regresar a inicio'>
+    </form>
+{% endblock contenido %}
+

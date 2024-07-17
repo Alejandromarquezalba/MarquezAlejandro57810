@@ -1,0 +1,10 @@
+{% extends 'Applic/index.html' %}
+
+{% block contenido %}
+  <h2>Editar el Market</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar cambios</button>
+  </form>
+{% endblock %}
