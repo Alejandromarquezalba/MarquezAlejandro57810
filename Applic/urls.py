@@ -2,7 +2,7 @@ from django.urls import path, include
 from MyProject.views import *
 from Applic.views import *
 from . import views
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordChangeDoneView
 
 urlpatterns = [
     path('', Home, name='home'),
@@ -26,5 +26,8 @@ urlpatterns = [
     path('login/', Loguear, name='login'),
     path('logout/', LogoutView.as_view(template_name='Applic/logout.html'), name='logout'),
     path('registro/', Registracion, name='registro'),
+    path('perfil/', Edit, name='perfil'),
+    path('<int:pk>/password/', changePass.as_view(), name='changePass'),
+    path('password_change/done/', PasswordChangeDoneView.as_view(template_name='Applic/password_change_done.html'), name='password_change_done'),
 ]
 

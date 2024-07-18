@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def Home(request):
@@ -150,3 +151,23 @@ def Registracion(request):
 
 
     return render(request, 'Applic/register.html', {'form': miForm})
+
+def Edit(request):
+    user = request.user
+    if request.method == 'POST':
+        miForm = EditForm(request.POST)
+        if miForm.is_valid():
+            user = User.objects.get(username=user)
+            user.email = miForm.cleaned_data.get('email')
+            user.first_name = miForm.cleaned_data.get('first_name')
+            user.last_name = miForm.cleaned_data.get('last_name')
+            user.save()
+            return redirect(reverse_lazy('home'))
+        else:
+            miForm = EditForm(instance=user)
+    return render (request, 'Applic/edituser.html', {'form':miForm})
+
+
+class changePass(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'Applic/changePass.html'
+    correct_url = reverse_lazy('home')

@@ -29,6 +29,10 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'form' %}">Formulario</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Buscar</a></li>
                             <p style='color:green'>[{{user}} {{user.first_name}} {{user.last_name}}]</p>
+                            <form method="post" action="{% url 'perfil' %}">
+                                {% csrf_token %}
+                                <button type="submit" class='btn btn-primary' style='background:purple'>Perfil</button>
+                            </form>
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class='btn btn-primary'>Salir</button>
@@ -40,6 +44,11 @@
                         {% endif %}
                         <!-- Admin: Admin contra: 123456789-->
                         <!-- Usuario: Usuariopromedio Contra: Estacontraseñahasidocambiada-->
+
+                        <!-- contraseñacambiadatesteo -->
+
+                        <!-- contraseñacambiadaotravez -->
+                        
                     </ul>
                 </div>
             </div>
