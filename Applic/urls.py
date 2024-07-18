@@ -29,5 +29,6 @@ urlpatterns = [
     path('perfil/', Edit, name='perfil'),
     path('<int:pk>/password/', changePass.as_view(), name='changePass'),
     path('password_change/done/', PasswordChangeDoneView.as_view(template_name='Applic/password_change_done.html'), name='password_change_done'),
+    path('agregar_avatar/', Avatar, name='agregar_avatar'),
 ]
 

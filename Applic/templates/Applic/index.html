@@ -29,6 +29,9 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'form' %}">Formulario</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Buscar</a></li>
                             <p style='color:green'>[{{user}} {{user.first_name}} {{user.last_name}}]</p>
+                            <div class='text-center'>
+                                <a href="{% url 'agregar_avatar' %}"><img src='{{request.session.avatar}}' alt='Imagen de un avatar' height='50px' weight='50px'></a>
+                            </div>
                             <form method="post" action="{% url 'perfil' %}">
                                 {% csrf_token %}
                                 <button type="submit" class='btn btn-primary' style='background:purple'>Perfil</button>

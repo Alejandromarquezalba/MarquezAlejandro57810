@@ -129,6 +129,16 @@ def Loguear(request):
         user = authenticate(request, username=usuario, password=passworld)
         if user is not None:
             login(request, user)
+
+            try:
+                avatar= Avatar.objects.get(user=request.user.id).imagen.url
+            except:
+                avatar = '/media/avatares/default.png'
+            finally:
+                request.session['avatar'] = avatar
+
+
+
             return render(request, 'Applic/index.html')
         else: 
             return redirect(reverse_lazy('login'))
@@ -152,6 +162,7 @@ def Registracion(request):
 
     return render(request, 'Applic/register.html', {'form': miForm})
 
+@login_required
 def Edit(request):
     user = request.user
     if request.method == 'POST':
@@ -171,3 +182,25 @@ def Edit(request):
 class changePass(LoginRequiredMixin, PasswordChangeView):
     template_name = 'Applic/changePass.html'
     correct_url = reverse_lazy('home')
+
+
+def Avatar(request):
+    if request.method == 'POST':
+        miForm = AvatarForm(request.POST, request.FILES)
+        if miForm.is_valid():
+            userio = User.objects.get(username=request.user)
+            imagen = miForm.cleaned_data['imagen']
+            delete_old_avatares = Avatar.objects.filter(user=userio)
+            if len(delete_old_avatares) > 0:
+                for i in range(len(delete_old_avatares)):
+                    delete_old_avatares[i].delete()
+            avatar = Avatar(user=userio, imagen=imagen)
+            avatar.save()
+
+            imagen = Avatar.objects.get(user=userio).imagen.url
+            request.session['avatar'] = imagen
+
+            return redirect(reverse_lazy('home'))
+    else:
+        miForm = AvatarForm()  
+    return render(request, 'Applic/addAvatar.html', {'form': miForm})

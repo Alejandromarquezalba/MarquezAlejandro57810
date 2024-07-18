@@ -38,4 +38,7 @@ class EditForm(UserChangeForm):
         model = User
         fields = ['email','first_name','last_name']
 
+
+class AvatarForm(forms.Form):
+    imagen = forms.ImageField(required=True)
     
