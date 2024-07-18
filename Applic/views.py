@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from Applic.models import *
+from django.urls import reverse_lazy
+
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+
+from django.contrib.auth.decorators import login_required
+
 
 def Home(request):
 
@@ -16,13 +23,15 @@ def Home(request):
     
     return render(request, 'Applic/index.html', content)
 
-
+@login_required
 def Acerca(request):
     return render(request, 'Applic/acerca.html')
     
+@login_required
 def Contacto(request):
     return render(request, 'Applic/contacto.html')
 
+@login_required
 def Form(request):
     if request.method == 'POST':
         client_form = ClientForm(request.POST)
@@ -49,10 +58,11 @@ def Form(request):
         'form3': worker_form
     })
 
-
+@login_required
 def Search (request):
     return render(request, 'Applic/search.html')
 
+@login_required
 def Find(request):
     query = request.GET.get('search_term', '')
     clients = Client.objects.filter(money__icontains=query) | Client.objects.filter(product__icontains=query)
@@ -68,6 +78,7 @@ def Find(request):
 
     return render(request, 'Applic/index.html', context)
 
+@login_required
 def Actualizacion(request, model_type, id_data):
     
     if model_type == 'client':
@@ -95,6 +106,7 @@ def Actualizacion(request, model_type, id_data):
 
     return render(request, template_name, {'form': form})
 
+@login_required
 def Eliminacion(request, model_type, id_data):
     if model_type == 'client':
         data = get_object_or_404(Client, id=id_data)
@@ -107,3 +119,34 @@ def Eliminacion(request, model_type, id_data):
 
     data.delete()
     return redirect('home')
+
+
+def Loguear(request):
+    if request.method == 'POST':
+        usuario = request.POST['username']
+        passworld = request.POST['password']
+        user = authenticate(request, username=usuario, password=passworld)
+        if user is not None:
+            login(request, user)
+            return render(request, 'Applic/index.html')
+        else: 
+            return redirect(reverse_lazy('login'))
+
+    else: 
+        miForm = AuthenticationForm()
+
+
+    return render(request, 'Applic/login.html', {'form': miForm})
+
+def Registracion(request):
+    if request.method == 'POST':
+        miForm = RegisterForm(request.POST)
+        if miForm.is_valid():
+            newuser = miForm.cleaned_data.get('username')
+            miForm.save()
+            return redirect(reverse_lazy('home'))
+    else: 
+        miForm = RegisterForm()
+
+
+    return render(request, 'Applic/register.html', {'form': miForm})

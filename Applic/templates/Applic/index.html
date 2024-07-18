@@ -22,10 +22,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'acerca' %}">Acerca</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'form' %}">Formulario</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Buscar</a></li>
+
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'acerca' %}">Acerca</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'form' %}">Formulario</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Buscar</a></li>
+                            <p style='color:green'>[{{user}} {{user.first_name}} {{user.last_name}}]</p>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class='btn btn-primary'>Salir</button>
+                            </form>
+
+                        {% else %}
+                            <a class='btn btn-primary' href="{% url 'login' %}">Loguearse</a>
+                            <a class='btn btn-success' href="{% url 'registro' %}">Registro</a>
+                        {% endif %}
+                        <!-- Admin: Admin contra: 123456789-->
+                        <!-- Usuario: Usuariopromedio Contra: Estacontraseñahasidocambiada-->
                     </ul>
                 </div>
             </div>
@@ -83,9 +97,14 @@
                                     <li>No se encontraron workers.</li>
                                 {% endfor %}
                             </ul>
-
-                            <h2>Ir al formulario para agregar nueva data a la base de datos</h2>
-                            <a href="{% url 'form' %}" class='btn btn-primary btn-sm'>Agregar +</a>
+                            
+                            {% if user.is_authenticated %}
+                                <h2>Ir al formulario para agregar nueva data a la base de datos</h2>
+                                <a href="{% url 'form' %}" class='btn btn-primary btn-sm'>Agregar +</a>
+                            {% else %}
+                                <h2>Para agregar data debes loguearte</h2>
+                                <a class='btn btn-primary btn-sm' style='background:gray'>Agregar +</a>
+                            {% endif %}
 
                         {% endblock %}
                         

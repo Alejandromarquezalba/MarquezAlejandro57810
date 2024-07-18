@@ -2,7 +2,7 @@ from django.urls import path, include
 from MyProject.views import *
 from Applic.views import *
 from . import views
-
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('', Home, name='home'),
@@ -21,5 +21,10 @@ urlpatterns = [
 
     path('search/', Search, name='search'),
     path('find/', Find, name='Find'),
+
+
+    path('login/', Loguear, name='login'),
+    path('logout/', LogoutView.as_view(template_name='Applic/logout.html'), name='logout'),
+    path('registro/', Registracion, name='registro'),
 ]
 
