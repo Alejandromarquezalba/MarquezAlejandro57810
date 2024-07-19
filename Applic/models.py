@@ -22,7 +22,7 @@ class Worker(models.Model):
         return f'{self.pay}'
     
 class Avatar(models.Model):
-    imagen = models.ImageField(upload_to='avatares', default='avatares/default.png')
+    imagen = models.ImageField(upload_to='avatares', default='media/avatares/default.png')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
