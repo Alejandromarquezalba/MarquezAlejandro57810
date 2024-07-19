@@ -137,16 +137,12 @@ def Loguear(request):
             finally:
                 request.session['avatar'] = avatar
 
-
-
             return render(request, 'Applic/index.html')
         else: 
             return redirect(reverse_lazy('login'))
 
     else: 
         miForm = AuthenticationForm()
-
-
     return render(request, 'Applic/login.html', {'form': miForm})
 
 def Registracion(request):
@@ -183,8 +179,8 @@ class changePass(LoginRequiredMixin, PasswordChangeView):
     template_name = 'Applic/changePass.html'
     correct_url = reverse_lazy('home')
 
-
-def Avatar(request):
+@login_required
+def addAvatar(request):
     if request.method == 'POST':
         miForm = AvatarForm(request.POST, request.FILES)
         if miForm.is_valid():
@@ -202,5 +198,11 @@ def Avatar(request):
 
             return redirect(reverse_lazy('home'))
     else:
-        miForm = AvatarForm()  
+        miForm = AvatarForm()
+
     return render(request, 'Applic/addAvatar.html', {'form': miForm})
+
+
+
+# ICONO ROTO NO SE MUESTRA
+# AL DARLE ''ACTUALIZAR IMAGEN'' me tira un error

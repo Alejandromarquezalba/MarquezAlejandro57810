@@ -11,7 +11,6 @@ urlpatterns = [
 
     path('form/', Form, name='form'),
 
-    
     path('actualizacion/client/<int:id_data>/', Actualizacion, {'model_type': 'client'}, name='actualizacion-cliente'),
     path('actualizacion/market/<int:id_data>/', Actualizacion, {'model_type': 'market'}, name='actualizacion-mercado'),
     path('actualizacion/worker/<int:id_data>/', Actualizacion, {'model_type': 'worker'}, name='actualizacion-trabajador'),
@@ -22,13 +21,12 @@ urlpatterns = [
     path('search/', Search, name='search'),
     path('find/', Find, name='Find'),
 
-
     path('login/', Loguear, name='login'),
     path('logout/', LogoutView.as_view(template_name='Applic/logout.html'), name='logout'),
     path('registro/', Registracion, name='registro'),
     path('perfil/', Edit, name='perfil'),
     path('<int:pk>/password/', changePass.as_view(), name='changePass'),
     path('password_change/done/', PasswordChangeDoneView.as_view(template_name='Applic/password_change_done.html'), name='password_change_done'),
-    path('agregar_avatar/', Avatar, name='agregar_avatar'),
+    path('agregar_avatar/', addAvatar, name='agregar_avatar'),
 ]
 
